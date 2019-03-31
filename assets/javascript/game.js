@@ -6,6 +6,8 @@ var $opponenHP = $("#opponentHP");
 var $displayDiv = $("#display");
 var $character = $(".character");
 
+var audioPlayer;
+
 
 // Create character objects
 var annakin = {
@@ -15,7 +17,8 @@ var annakin = {
     health : 100,
     attack : 10,
     isPlayer : false,
-    isOpponent : false
+    isOpponent : false,
+    audioFile : "assets/audio/lightsaber.mp3"
 };
 
 var yoda = {
@@ -25,7 +28,8 @@ var yoda = {
     health:100,
     attack:10,
     isPlayer : false,
-    isOpponent: false
+    isOpponent: false,
+    audioFile : "assets/audio/lightsaber.mp3"
 };
 
 var darth = {
@@ -35,7 +39,8 @@ var darth = {
     health: 100,
     attack: 10,
     isPlayer : false,
-    isOpponent: false
+    isOpponent: false,
+    audioFile : "assets/audio/lightsaber.mp3"
 };
 
 var jabba = {
@@ -45,7 +50,8 @@ var jabba = {
     health : 100,
     attack : 10,
     isPlayer : false,
-    isOpponent: false
+    isOpponent: false,
+    audioFile : "assets/audio/lightsaber.mp3"
 };
 
 var characters = [annakin, yoda, darth, jabba];
@@ -77,6 +83,9 @@ function init(){
     //Setup up game display and field
     $displayDiv.text("Select your character!")
     //Await for user to select character
+
+    audioPlayer = document.createElement("audio");
+   audioPlayer.setAttribute("src", annakin.audioFile);
 };
 
 
@@ -96,9 +105,11 @@ function playerSelection($player){
     });
     $player.css("pointer-events", "none");
     console.log($player);
+    $player.animate({left: "10px", top: "-75px"});
     $player.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
     // $player.addClass("playerPosition");
-    $player.animate({left: "10px", top: "-75px"});
+    //$player.animate({height: "200px"});
+    game.player.$img.animate({height: "200px"});
     // game.player.$div.addClass("green-bg");
     game.player.$div.addClass("green-bg");
     game.player.$img.addClass("green-bg");
@@ -114,9 +125,10 @@ function playerSelection($player){
 function opponentSelection($opponent){
     console.log("opponentselection =" + $opponent);
     console.log("opponentSelection");
+    $opponent.animate({left: "800px", top: "-75px"});
     $opponent.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4 opponentBench1 opponentBench2");
     // $opponent.addClass("opponentPosition");
-    $opponent.animate({left: "800px", top: "-75px"});
+  
     game.isOpponentSelected = true;
     
 
@@ -127,7 +139,7 @@ function opponentSelection($opponent){
             game.comp = character;
         }
     });
-    
+      game.comp.$img.animate({height: "200px"});
     game.comp.$div.addClass("red-bg");
     game.comp.$img.addClass("red-bg");
     // move unselect characters to the bench
@@ -159,6 +171,7 @@ function opponentSelection($opponent){
 };
 
 function playerAttack(){
+    audioPlayer.play();
     $displayDiv.html(game.player.name + " attacked " + game.comp.name + ", reducing HP by " + game.player.attack);
     game.comp.health -= game.player.attack;
     $("#compHPSVG").animate({width: game.comp.health});
@@ -208,4 +221,6 @@ function checkLost(){
 
 }
 
+
+init();
 });
