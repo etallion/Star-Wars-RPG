@@ -24,14 +24,11 @@ header{
     border-width: medium;
 }
 
-.col{
-}
 
 .character img{
     position : absolute;
     height : 100px;
-   background-color: chartreuse;
-   padding: 3px 3px 3px 3px;
+    padding: 3px 3px 3px 3px;
 }
 
 .container{
@@ -80,6 +77,8 @@ header{
     color:red;
     text-align: center;
     background-color: lightgray;
+    position: absolute;
+    left: 230px;
 }
 
 #field{
@@ -157,4 +156,12 @@ header{
 
 .hidden{
     visibility: hidden;
+}
+
+.red-bg{
+    background-color: red;
+}
+
+.green-bg{
+    background-color: chartreuse;
 }

@@ -99,6 +99,9 @@ function playerSelection($player){
     $player.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
     // $player.addClass("playerPosition");
     $player.animate({left: "10px", top: "-75px"});
+    // game.player.$div.addClass("green-bg");
+    game.player.$div.addClass("green-bg");
+    game.player.$img.addClass("green-bg");
     game.isPlayerSelected = true;
     $displayDiv.html("<em>Select your opponent</em>");
     
@@ -115,7 +118,7 @@ function opponentSelection($opponent){
     // $opponent.addClass("opponentPosition");
     $opponent.animate({left: "800px", top: "-75px"});
     game.isOpponentSelected = true;
-    $opponent.css("background-color", "red");
+    
 
     characters.forEach(function(character){
         if(character.$div.attr("id") === $opponent.attr("id")){
@@ -125,7 +128,8 @@ function opponentSelection($opponent){
         }
     });
     
-
+    game.comp.$div.addClass("red-bg");
+    game.comp.$img.addClass("red-bg");
     // move unselect characters to the bench
     var count = 0;
     characters.forEach(function(character){
