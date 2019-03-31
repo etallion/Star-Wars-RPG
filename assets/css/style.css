@@ -146,3 +146,7 @@ header{
     left: 70%;
     top: 60%;
 }
+
+.hidden{
+    visibility: hidden;
+}

@@ -105,7 +105,8 @@ var game = {
     playerAttackTimes : 0,
     didPlayerWin : false,
     player : null,
-    comp : null
+    comp : null,
+    wins :0
 
 };
 
@@ -146,7 +147,7 @@ function playerSelection($player){
 function opponentSelection($opponent){
     console.log("opponentselection =" + $opponent);
     console.log("opponentSelection");
-    $opponent.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
+    $opponent.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4 opponentBench1 opponentBench2");
     $opponent.addClass("opponentPosition");
     game.isOpponentSelected = true;
     
@@ -190,24 +191,46 @@ function playerAttack(){
     $("#compHPNum").text(game.comp.health);
     game.player.attack *=2;
 
+    if(!checkWin()){
     // $game.player.$div.css("pointer-events", "none");
-    setTimeout(opponentAttack, 3000);
-
+    setTimeout(opponentAttack, 500);
+    };
 };
 
 function opponentAttack(){
-    $displayDiv.append("<br>" + game.comp.name + " attacked back" + game.player.name + ", reducing HP by " + game.comp.attack);
+    $displayDiv.append("<br>" + game.comp.name + " attacked " + game.player.name + " back, reducing HP by " + game.comp.attack);
     game.player.health -= game.comp.attack;
     $("#playerHPSVG").css("width", game.player.health);
     $("#playerHPNum").text(game.player.health);
 
     // $game.player.$div.css("pointer-events", "auto");
-   
+   if(checkLost){
+
+   };
 };
 
 
 
 function checkWin(){
+    if(game.comp.health <= 0){
+        //you won
+        game.wins++;
+        if(game.wins < 3){
+            game.isOpponentSelected = false;
+            game.comp.$div.addClass("hidden");
+            $displayDiv.html("You defeated " + game.comp.name);
+            $displayDiv.append("<br><em>Select your next opponent</em>");
+        } else {
+            $displayDiv.html("<strong>Congratulation! You're a true hero!</strong>");
+        }
+        return true;
+    } else{
+        return false;
+    }
+}
+
+function checkLost(){
 
 }
+
 });
