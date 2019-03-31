@@ -221,7 +221,7 @@ function checkWin(){
         if(game.wins < 3){
             game.isOpponentSelected = false;
             game.comp.$div.addClass("hidden");
-            $displayDiv.html("You defeated " + game.comp.name);
+            $displayDiv.append("<p>You defeated " + game.comp.name) + "</p>";
             $displayDiv.append("<p><em>Select your next opponent</em></p>");
         } else {
             $displayDiv.append("<p><strong>Congratulation! You're a true hero!</strong></p>");
