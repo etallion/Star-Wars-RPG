@@ -62,44 +62,6 @@ $character.on("click", function(){
 $("#attackButton").on("click", playerAttack);
 
 
-// annakin.$div.click(function(){
-//     var $input = $(this);
-//     var leftPosition = annakin.$div.css("left");
-//     console.log(leftPosition);
-//     leftPosition = parseInt(leftPosition) + 100;
-//     $input.css("left", "+=50");
-//     console.log("annakin clicked");
-// });
-
-// jabba.$div.click(opponentSelection)
-
-// function selectCharacter(choice){
-//     choice.css("left", "50");
-//     choice.css("top", "50");
-// }
-
-// function opponentSelection() {
-//     console.log("inside opponentSelection")
-//     $input = jabba.$div;
-//     $inputImg = jabba.$img;
-//     $input.css("left", 750);
-//     $input.css("top", 0);
-//     $inputImg.css("height", 200);
-//     var count = 0;
-//     characters.forEach(function(character){
-//         // console.log(character);
-//         if(character.$div !== annakin.$div && character.$div !== $input ){
-//             console.log("count = " + count);
-//             var p = 350 + (150*count);
-//             character.$div.css("left", p);
-//             character.$div.css("top", 200);
-//             count++;
-//         }
-//     });
-// }
-
-
-
 var game = {
     isPlayerSelected : false,
     isOpponentSelected : false,
@@ -135,7 +97,8 @@ function playerSelection($player){
     $player.css("pointer-events", "none");
     console.log($player);
     $player.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
-    $player.addClass("playerPosition");
+    // $player.addClass("playerPosition");
+    $player.animate({left: "10px", top: "-75px"});
     game.isPlayerSelected = true;
     $displayDiv.html("<em>Select your opponent</em>");
     
@@ -149,9 +112,11 @@ function opponentSelection($opponent){
     console.log("opponentselection =" + $opponent);
     console.log("opponentSelection");
     $opponent.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4 opponentBench1 opponentBench2");
-    $opponent.addClass("opponentPosition");
+    // $opponent.addClass("opponentPosition");
+    $opponent.animate({left: "800px", top: "-75px"});
     game.isOpponentSelected = true;
-    
+    $opponent.css("background-color", "red");
+
     characters.forEach(function(character){
         if(character.$div.attr("id") === $opponent.attr("id")){
             console.log("opponent ID =" + character.$div.attr("id"));
@@ -168,11 +133,14 @@ function opponentSelection($opponent){
         if(character.isOpponent === false && character.isPlayer === false ){
             console.log(character.name);
             if(count === 0){
+                character.$div.animate({left: "500px", top: "200px"});
+                // character.$div.animate({top: "20px"});
                 character.$div.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
-                character.$div.addClass("opponentBench1");
+              //  character.$div.addClass("opponentBench1");
             } else {
                 character.$div.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
-                character.$div.addClass("opponentBench2");
+                // character.$div.addClass("opponentBench2");
+                character.$div.animate({left: "725px", top: "200px"});
             }
             count++;
         }
@@ -189,7 +157,7 @@ function opponentSelection($opponent){
 function playerAttack(){
     $displayDiv.html(game.player.name + " attacked " + game.comp.name + ", reducing HP by " + game.player.attack);
     game.comp.health -= game.player.attack;
-    $("#compHPSVG").css("width", game.comp.health);
+    $("#compHPSVG").animate({width: game.comp.health});
     $("#compHPNum").text(game.comp.health);
     game.player.attack *=2;
 
@@ -202,7 +170,7 @@ function playerAttack(){
 function opponentAttack(){
     $displayDiv.append("<br>" + game.comp.name + " attacked " + game.player.name + " back, reducing your HP by " + game.comp.attack);
     game.player.health -= game.comp.attack;
-    $("#playerHPSVG").css("width", game.player.health);
+    $("#playerHPSVG").animate({width: game.player.health});
     $("#playerHPNum").text(game.player.health);
 
     // $game.player.$div.css("pointer-events", "auto");
