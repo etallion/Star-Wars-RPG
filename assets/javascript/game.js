@@ -7,6 +7,7 @@ var $displayDiv = $("#display");
 var $character = $(".character");
 
 var audioPlayer;
+var jabbaPlayer;
 
 
 // Create character objects
@@ -25,8 +26,8 @@ var yoda = {
     name : "Yoda",
     $div : $("#yoda"),
     $img : $("#yoda-img"),
-    health:100,
-    attack:10,
+    health:150,
+    attack:20,
     isPlayer : false,
     isOpponent: false,
     audioFile : "assets/audio/lightsaber.mp3"
@@ -36,8 +37,8 @@ var darth = {
     name : "Darth Vader",
     $div : $("#darth"),
     $img : $("#darth-img"),
-    health: 100,
-    attack: 10,
+    health: 200,
+    attack: 50,
     isPlayer : false,
     isOpponent: false,
     audioFile : "assets/audio/lightsaber.mp3"
@@ -47,11 +48,11 @@ var jabba = {
     name : "Jabba the Hutt",
     $div : $("#jabba"),
     $img : $("#jabba-img"),
-    health : 100,
+    health : 120,
     attack : 10,
     isPlayer : false,
     isOpponent: false,
-    audioFile : "assets/audio/lightsaber.mp3"
+    audioFile : "assets/audio/jabba.mp3"
 };
 
 var characters = [annakin, yoda, darth, jabba];
@@ -84,8 +85,11 @@ function init(){
     $displayDiv.text("Select your character!")
     //Await for user to select character
 
-    audioPlayer = document.createElement("audio");
+audioPlayer = document.createElement("audio");
    audioPlayer.setAttribute("src", annakin.audioFile);
+
+   jabbaPlayer = document.createElement("audio");
+   jabbaPlayer.setAttribute("src", jabba.audioFile);
 };
 
 
@@ -109,7 +113,7 @@ function playerSelection($player){
     $player.removeClass("selectionPosition1 selectionPosition2 selectionPosition3 selectionPosition4");
     // $player.addClass("playerPosition");
     //$player.animate({height: "200px"});
-    game.player.$img.animate({height: "200px"});
+    game.player.$img.animate({height: "180px"});
     // game.player.$div.addClass("green-bg");
     game.player.$div.addClass("green-bg");
     game.player.$img.addClass("green-bg");
@@ -139,7 +143,7 @@ function opponentSelection($opponent){
             game.comp = character;
         }
     });
-      game.comp.$img.animate({height: "200px"});
+    game.comp.$img.animate({height: "180px"});
     game.comp.$div.addClass("red-bg");
     game.comp.$img.addClass("red-bg");
     // move unselect characters to the bench
@@ -191,9 +195,7 @@ function opponentAttack(){
     $("#playerHPNum").text(game.player.health);
 
     // $game.player.$div.css("pointer-events", "auto");
-   if(checkLost){
-
-   };
+  checkLost();
 };
 
 
@@ -218,7 +220,14 @@ function checkWin(){
 }
 
 function checkLost(){
+ if(game.player.health <= 0){
+     //lost 
 
+     $("#attackButton").addClass("hidden");
+    jabbaPlayer.play();
+    $displayDiv.html("<p><strong>Arghh, you were defeated by " + game.comp.name + ".</p>");
+
+ }
 }
 
 
