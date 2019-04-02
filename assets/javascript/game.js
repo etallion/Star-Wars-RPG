@@ -76,7 +76,9 @@ var game = {
     didPlayerWin : false,
     player : null,
     comp : null,
-    wins :0
+    wins :0,
+    compStartingHealth : 0,
+    playerStartingHealth :0
 
 };
 
@@ -120,9 +122,11 @@ function playerSelection($player){
     game.isPlayerSelected = true;
     $displayDiv.html("<em>Select your opponent</em>");
     
-    $("#playerHPSVG").css("width", game.player.health);
-    $("#playerHPNum").text(game.player.health);
+    game.playerStartingHealth = game.player.health;
 
+    $("#playerHPSVG").css("width", 100);
+    $("#playerHPNum").text(game.player.health);
+    $
     
 };
 
@@ -143,6 +147,7 @@ function opponentSelection($opponent){
             game.comp = character;
         }
     });
+    game.compStartingHealth = game.comp.health;
     game.comp.$img.animate({height: "180px"});
     game.comp.$div.addClass("red-bg");
     game.comp.$img.addClass("red-bg");
@@ -166,7 +171,7 @@ function opponentSelection($opponent){
         }
     });
 
-    $("#compHPSVG").css("width", game.comp.health);
+    $("#compHPSVG").css("width", 100);
     $("#compHPNum").text(game.comp.health);
 
     //update display
@@ -178,7 +183,11 @@ function playerAttack(){
     audioPlayer.play();
     $displayDiv.html(game.player.name + " attacked " + game.comp.name + ", reducing HP by " + game.player.attack);
     game.comp.health -= game.player.attack;
-    $("#compHPSVG").animate({width: game.comp.health});
+    var currentHP = $("#compHPSVG").css("width");
+    console.log(currentHP);
+    var tempDisplayHP = parseInt(currentHP)-((game.player.attack/game.compStartingHealth)*100);
+
+    $("#compHPSVG").animate({width: tempDisplayHP});
     $("#compHPNum").text(game.comp.health);
     game.player.attack *=2;
 
@@ -191,7 +200,10 @@ function playerAttack(){
 function opponentAttack(){
     $displayDiv.append("<br>" + game.comp.name + " attacked " + game.player.name + " back, reducing your HP by " + game.comp.attack);
     game.player.health -= game.comp.attack;
-    $("#playerHPSVG").animate({width: game.player.health});
+    var currentHP = $("#playerHPSVG").css("width");
+
+    var tempDisplayHP = parseInt(currentHP)-((game.comp.attack/game.playerStartingHealth)*100);
+    $("#playerHPSVG").animate({width: tempDisplayHP});
     $("#playerHPNum").text(game.player.health);
 
     // $game.player.$div.css("pointer-events", "auto");
@@ -225,7 +237,7 @@ function checkLost(){
 
      $("#attackButton").addClass("hidden");
     jabbaPlayer.play();
-    $displayDiv.html("<p><strong>Arghh, you were defeated by " + game.comp.name + ".</p>");
+    $displayDiv.append("<p><strong>Arghh, you were defeated by " + game.comp.name + ".</p>");
 
  }
 }
