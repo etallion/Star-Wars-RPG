@@ -192,12 +192,14 @@ function playerAttack(){
     game.player.attack *=2;
 
     if(!checkWin()){
+        $("#attackButton").css("pointer-events", "none");
     // $game.player.$div.css("pointer-events", "none");
     setTimeout(opponentAttack, 500);
     };
 };
 
 function opponentAttack(){
+    $("#attackButton").css("pointer-events", "auto");
     $displayDiv.append("<br>" + game.comp.name + " attacked " + game.player.name + " back, reducing your HP by " + game.comp.attack);
     game.player.health -= game.comp.attack;
     var currentHP = $("#playerHPSVG").css("width");
